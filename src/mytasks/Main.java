@@ -1,5 +1,8 @@
 package mytasks;
 
+import java.io.File;
+import org.json.simple.*;
+
 public class Main {
 	public static final String dataFileName = "mytasks_data.txt";
 	
@@ -9,7 +12,11 @@ public class Main {
 		// TODO Auto-generated method stub
 		
 		workingDir = System.getProperty("user.dir");
-	}
+		
+		DataManager handler = new DataManager();
+		handler.setSourceData(workingDir + "/" + dataFileName);
 	
+		handler.loadData();
+	}
 	
 }
