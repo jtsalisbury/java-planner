@@ -11,11 +11,11 @@ public class SQLManager {
 	public Connection link = null;
 	private Statement stmt = null;
 	
-	  private static String url = "";
-	  private static Integer port = 0000;
-	  private static String dbName = "";
-	  private static String user = "";
-	  private static String pass = "";
+	private static String url = "";
+	private static Integer port = 0000;
+	private static String dbName = "";
+	private static String user = "";
+	private static String pass = "";
 	
 	SQLManager() throws Exception {
 		connect();
