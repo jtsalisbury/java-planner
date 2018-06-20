@@ -1,22 +1,14 @@
 package mytasks;
 
 import java.io.File;
-import org.json.simple.*;
 
-public class Main {
-	public static final String dataFileName = "mytasks_data.txt";
-	
-	static String workingDir;
-	
-	public static void main(String[] args) {
+public class Main {	
+	public static void main(String[] args) throws Exception {
 		// TODO Auto-generated method stub
 		
-		workingDir = System.getProperty("user.dir");
+		SQLManager db = new SQLManager();
 		
-		DataManager handler = new DataManager();
-		handler.setSourceData(workingDir + "/" + dataFileName);
-	
-		handler.loadData();
+		
 	}
 	
 }
