@@ -21,3 +21,6 @@ $RECYCLE.BIN/
 # =========================
 # Operating System Files
 # =========================
+bin/mytasks/SQLManager.class
+src/mytasks/SQLManager.java
+bin/mytasks/SQLManager.class
