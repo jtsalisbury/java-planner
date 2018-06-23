@@ -1,29 +1,35 @@
 .root {
 	-fx-font-family: "Arial";
-}
-
-#frame {
 	-fx-background-color: white;
 }
 
-#container {
-}
-
-#username, #password {
-}
-
-#subheader {
-}
-
-#header {
+.header {
 	-fx-background-color: #F8F8F8;
 }
 
-#headerText {
+.headerText {
 	 -fx-font-size: 12pt;
 	 -fx-text-fill: #808080;
 }
 
-#close {
+.minimizeButton {
+	
+}
+
+.closeButton {
+	
+}
+
+.subheaderText {
+	
+}
+
+.usernameField {
+	
+}
+.passwordField {
+	
+}
+.loginButton {
 	
 }
