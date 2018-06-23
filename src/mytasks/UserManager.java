@@ -1,7 +1,16 @@
 package mytasks;
 
 import java.io.IOException;
-import javafx.fxml.*;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.KeySpec;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.Base64;
+
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
+
 import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
@@ -18,12 +27,37 @@ public class UserManager {
 	
 	double xOffset = 0;
     double yOffset = 0;
-	
+    
+    public String hashPassword(String pass, String salt) throws NoSuchAlgorithmException, InvalidKeySpecException {
+    	
+    	KeySpec spec = new PBEKeySpec(pass.toCharArray(), salt.getBytes(), 1000, 128);
+    	SecretKeyFactory f = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+    	byte[] hash = f.generateSecret(spec).getEncoded();
+    	Base64.Encoder enc = Base64.getEncoder();
+    	
+    	return enc.encodeToString(hash);
+    }
+    
+    public boolean attemptLogin(String username, String password) throws Exception {
+    	System.out.println(username);
+    	System.out.println(password);
+    	System.out.println(hashPassword(password, "125 176   4 149 135 172 183 245 243 141 142 244 119  25  19 116 "));
+    	
+    	SQLManager db = new SQLManager();
+    	
+    	PreparedStatement stmt = db.prep("SELECT * FROM `users` WHERE `username` = ? LIMIT 1");
+    	stmt.setString(1, username);
+    	
+    	ResultSet res = stmt.executeQuery();
+    	while (res.next()) {
+    		System.out.println(res.getString("email"));
+    	}
+    		
+    	return false;
+    }
 	
 	public void promptLogin() throws IOException {
-		
 		primaryStage.initStyle(StageStyle.UNDECORATED);
-		//Parent p = FXMLLoader.load(getClass().getResource("loginForm.fxml"));		
 		
 		GridPane root = new GridPane();
 			root.setHgap(10);
@@ -59,7 +93,7 @@ public class UserManager {
 			Label headerText = new Label("MyTasks");
 				header.add(headerText, 1, 1);
 				header.getStyleClass().add("headerText");
-				header.setColumnSpan(headerText, 10);
+				GridPane.setColumnSpan(headerText, 10);
 			
 			Button minimize = new Button("-");
 				minimize.getStyleClass().add("minimizeButton");
@@ -105,17 +139,28 @@ public class UserManager {
 		Button doLogin = new Button("Login");
 			doLogin.setPrefHeight(40);
 			doLogin.getStyleClass().add("loginButton");
+			doLogin.setOnAction(new EventHandler<ActionEvent>() {
+				@Override 
+				public void handle(ActionEvent ev) {
+					try {
+						attemptLogin(username.getText(), password.getText());
+					} catch (NoSuchAlgorithmException e) {
+						e.printStackTrace();
+					} catch (InvalidKeySpecException e) {
+						e.printStackTrace();
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			});
 			root.add(doLogin, 1, 4);
 		
 		root.add(header, 0, 0);
-		root.setColumnSpan(header, 3);
+		GridPane.setColumnSpan(header, 3);
 		
 		s.getStylesheets().add(getClass().getResource("loginForm.css").toExternalForm());
 		primaryStage.setScene(s);
 		primaryStage.show();
 	}
-	
-	
-	
-	
 }

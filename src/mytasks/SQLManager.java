@@ -23,12 +23,9 @@ public class SQLManager {
 	
 	public void connect() throws Exception {
 		try {
-			System.out.println("jdbc:mysql://" + url + ":" + port + "/" + dbName);
 			link = DriverManager.getConnection("jdbc:mysql://" + url + ":" + port + "/" + dbName, user, pass);
 		} catch (Exception e) {
 			throw e;
-		} finally {
-			close();
 		}
 	}
 	
