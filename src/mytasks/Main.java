@@ -7,7 +7,7 @@ public class Main extends Application {
 	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		SQLManager db = new SQLManager();
+		//SQLManager db = new SQLManager();
 		UserManager user = new UserManager(primaryStage);
 		
 		user.promptLogin();

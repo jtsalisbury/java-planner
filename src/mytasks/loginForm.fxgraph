@@ -5,21 +5,54 @@ import javafx.scene.layout.*
 import javafx.scene.control.TextField
 import javafx.scene.layout.GridPane
 
-component loginForm styledwith ["loginForm.css"] {
+import mytasks.FormController
+
+component loginForm styledwith ["loginForm.css"] controlledby FormController {
+	
 	GridPane id frame {
-		
-		prefHeight : 200,
+		prefHeight : 230,
 		prefWidth: 400,
 		hgap: 10,
 		vgap: 10,
 			
-		BorderPane id header {
-			prefHeight: 60,
+		GridPane id header {
+			prefHeight: 46,
 			prefWidth: 400,
+			
+			hgap: 10,
+			vgap: 10,
 			
 			static columnIndex: 0,
 			static rowIndex: 0,
-			static columnSpan: 3
+			static columnSpan: 3,
+			
+			onMousePressed: controllermethod drag_MousePress,
+			
+			Label id headerText {
+				text: "MyTasks",
+				
+				static columnIndex: 1,
+				static rowIndex: 1,	
+				static columnSpan: 10
+			},
+			
+			Button id minimize {
+				text: "-",
+				
+				static columnIndex: 34,
+				static rowIndex: 1,
+				
+				onAction: controllermethod minimizeFrame
+			},
+			
+			Button id close {
+				text: "x",
+				
+				static columnIndex: 35,
+				static rowIndex: 1,
+				
+				onAction: controllermethod closeFrame
+			}
 		},
 		Label id subheader {
 			text: "Please login",
@@ -42,6 +75,14 @@ component loginForm styledwith ["loginForm.css"] {
 			
 			static columnIndex: 1,
 			static rowIndex: 3
+		},
+		
+		Button id doLogin {
+			text: "Login",
+			
+			prefHeight: 40,
+			static columnIndex: 1,
+			static rowIndex: 4
 		}
 			
 	}

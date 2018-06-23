@@ -1,5 +1,9 @@
+.root {
+	-fx-font-family: "Arial";
+}
+
 #frame {
-	
+	-fx-background-color: white;
 }
 
 #container {
@@ -9,4 +13,17 @@
 }
 
 #subheader {
+}
+
+#header {
+	-fx-background-color: #F8F8F8;
+}
+
+#headerText {
+	 -fx-font-size: 12pt;
+	 -fx-text-fill: #808080;
+}
+
+#close {
+	
 }
