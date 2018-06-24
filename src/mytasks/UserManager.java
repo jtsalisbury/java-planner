@@ -13,6 +13,7 @@ import javax.crypto.spec.PBEKeySpec;
 
 import javafx.scene.*;
 import javafx.scene.control.*;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.stage.*;
@@ -21,6 +22,7 @@ import javafx.event.EventHandler;
 
 public class UserManager {
 	private Stage primaryStage;
+	
 	UserManager(Stage stg) {
 		primaryStage = stg;
 	}
@@ -38,7 +40,12 @@ public class UserManager {
     	return enc.encodeToString(hash);
     }
     
-    public boolean attemptLogin(String username, String password) throws Exception {
+    public void loginError(String msg) {
+    	Alert alert = new Alert(AlertType.ERROR, msg);
+    	alert.showAndWait();
+    }
+    
+    public void attemptLogin(String username, String password) throws Exception {
     	System.out.println(username);
     	System.out.println(password);
     	System.out.println(hashPassword(password, "125 176   4 149 135 172 183 245 243 141 142 244 119  25  19 116 "));
@@ -49,11 +56,22 @@ public class UserManager {
     	stmt.setString(1, username);
     	
     	ResultSet res = stmt.executeQuery();
-    	while (res.next()) {
-    		System.out.println(res.getString("email"));
-    	}
+    	
+    	
+    	if (!res.next()) {
+    		loginError("Incorrect username / password!");
+    	} else {
+    		System.out.println(hashPassword(password, res.getString("salt")));
+    		if (res.getString("password").equals(hashPassword(password, res.getString("salt")))) {
+    			primaryStage.close();
+    			
+    			
+    		} else {
+    			loginError("Incorrect username / password!");
+    		}	
     		
-    	return false;
+    		db.close();
+    	}    	
     }
 	
 	public void promptLogin() throws IOException {
@@ -160,6 +178,7 @@ public class UserManager {
 		GridPane.setColumnSpan(header, 3);
 		
 		s.getStylesheets().add(getClass().getResource("loginForm.css").toExternalForm());
+	
 		primaryStage.setScene(s);
 		primaryStage.show();
 	}
