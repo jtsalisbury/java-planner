@@ -1,4 +1,4 @@
-package mytasks;
+package planner;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
