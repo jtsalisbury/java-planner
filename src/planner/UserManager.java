@@ -1,4 +1,4 @@
-package mytasks;
+package planner;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
@@ -46,10 +46,6 @@ public class UserManager {
     }
     
     public void attemptLogin(String username, String password) throws Exception {
-    	System.out.println(username);
-    	System.out.println(password);
-    	System.out.println(hashPassword(password, "125 176   4 149 135 172 183 245 243 141 142 244 119  25  19 116 "));
-    	
     	SQLManager db = new SQLManager();
     	
     	PreparedStatement stmt = db.prep("SELECT * FROM `users` WHERE `username` = ? LIMIT 1");
@@ -61,17 +57,18 @@ public class UserManager {
     	if (!res.next()) {
     		loginError("Incorrect username / password!");
     	} else {
-    		System.out.println(hashPassword(password, res.getString("salt")));
+
     		if (res.getString("password").equals(hashPassword(password, res.getString("salt")))) {
     			primaryStage.close();
     			
+    			new TaskManager(username, res.getInt("id"), primaryStage);
     			
     		} else {
     			loginError("Incorrect username / password!");
     		}	
-    		
-    		db.close();
     	}    	
+    	
+    	db.close();
     }
 	
 	public void promptLogin() throws IOException {
@@ -108,7 +105,7 @@ public class UserManager {
 			header.setVgap(10);
 			header.getStyleClass().add("header");
 		
-			Label headerText = new Label("MyTasks");
+			Label headerText = new Label("Planner");
 				header.add(headerText, 1, 1);
 				header.getStyleClass().add("headerText");
 				GridPane.setColumnSpan(headerText, 10);
